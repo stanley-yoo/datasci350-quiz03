@@ -161,3 +161,40 @@ git commit -m "Add Python calls"
 git push origin main
 
 git status
+
+chmod 400 ~/Downloads/datasci350.pem
+
+ssh -i ~/Downloads/datasci350.pem ubuntu@ec2-77-113-58-118.us-east-2.compute.amazonaws.com
+
+ubuntu@ip-172-31-20-66:~$
+
+sudo apt update
+
+sudo apt install -y python3-pandas python3-matplotlib python3-seaborn
+
+cd ~/datasci350-quiz03
+ls aws/
+scp -i /Users/stan/Downloads/datasci350.pem aws/traffic_analysis.py aws/website_traffic.txt ubuntu@ec2-77-113-58-118.us-east-2.compute.amazonaws.com:~/
+python3 traffic_analysis.py > results.txt
+cat /var/lib/cloud/data/instance-id >> results.txt
+sha256sum results.txt > fingerprint.txt
+cat results.txt
+cat fingerprint.txt
+ls
+ls aws/
+cat aws/results.txt
+cat aws/fingerprint.txt
+
+When you stop an EC2 instance instead of terminating it, you still pay for storage such as EBS volumes and any other billable resources that remain allocated, even though instance compute charges stop.
+
+I used ChatGPT to help me make the modelfile parameters and troubleshoot errors. One example of prompt is: help me make the modelfile that makes the llm model sound like a sport broadcaster; another prompt was: how do I install python3 on ec2 instance? 
+
+git add .
+
+git status
+
+git commit -m "Add AWS analysis results"
+
+git push origin main
+
+git status
