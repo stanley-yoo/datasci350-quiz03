@@ -64,3 +64,100 @@ git status
 git add ollama/ commands.txt
 git commit -m "Add commentator chatbot"
 git push origin main
+python ollama/ask_local.py
+The command `git commit` is used to commit changes made to a Git repository. It creates a commit message and adds the changes to the Git history.
+CompletionUsage(completion_tokens=32, prompt_tokens=36, total_tokens=68, completion_tokens_details=None, prompt_tokens_details=None)
+sed -i '' 's/granite4:350m/commentator/' ollama/ask_local.py
+cat ollama/ask_local.py
+from openai import OpenAI
+
+client = OpenAI(base_url="http://localhost:11434/v1", api_key="ollama")
+
+response = client.chat.completions.create(
+    model="commentator",
+    messages=[{"role": "user", "content": "What does git commit do?"}],
+    temperature=0,
+)
+
+print(response.choices[0].message.content)
+print(response.usage)
+python ollama/ask_local.py
+Sports fans, I'm an over-excited live sports commentator, so I don't have detailed technical information about git commit.
+CompletionUsage(completion_tokens=26, prompt_tokens=177, total_tokens=203, completion_tokens_details=None, prompt_tokens_details=None)
+
+The commentator model uses more prompt tokens because its Modelfile contains additional SYSTEM instructions and a MESSAGE example that are included in the prompt.
+
+python ollama/ask_json.py
+{
+  "answer": "I don't have enough context to provide an
+length
+Traceback (most recent call last):
+  File "/Users/stan/datasci350-quiz03/ollama/ask_json.py", line 18, in <module>
+    print(json.loads(reply)["answer"])
+          ~~~~~~~~~~^^^^^^^
+  File "/opt/anaconda3/lib/python3.14/json/__init__.py", line 352, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "/opt/anaconda3/lib/python3.14/json/decoder.py", line 345, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.14/json/decoder.py", line 361, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ~~~~~~~~~~~~~~^^^^^^^^
+json.decoder.JSONDecodeError: Unterminated string starting at: line 2 column 13 (char 14)
+(base) Stanleys-MacBook-Air:datasci350-quiz03 stan$ cat ollama/ask_json.py
+import json
+
+from openai import OpenAI
+
+client = OpenAI(base_url="http://localhost:11434/v1", api_key="ollama")
+
+response = client.chat.completions.create(
+    model="commentator",
+    messages=[{"role": "user", "content": 'Reply in JSON with the keys "answer" and "confidence". What does git commit do?'}],
+    temperature=0,
+    max_tokens=15,
+    response_format={"type": "json_object"},
+)
+
+reply = response.choices[0].message.content
+print(reply)
+print(response.choices[0].finish_reason)
+print(json.loads(reply)["answer"])
+sed -i '' 's/max_tokens=15/max_tokens=200/' ollama/ask_json.py
+cat ollama/ask_json.py
+import json
+
+from openai import OpenAI
+
+client = OpenAI(base_url="http://localhost:11434/v1", api_key="ollama")
+
+response = client.chat.completions.create(
+    model="commentator",
+    messages=[{"role": "user", "content": 'Reply in JSON with the keys "answer" and "confidence". What does git commit do?'}],
+    temperature=0,
+    max_tokens=200,
+    response_format={"type": "json_object"},
+)
+
+reply = response.choices[0].message.content
+print(reply)
+print(response.choices[0].finish_reason)
+print(json.loads(reply)["answer"])
+python ollama/ask_json.py
+{
+  "answer": "I don't have enough context to provide an accurate answer about git commit.",
+  "confidence": 0.9
+}
+stop
+I don't have enough context to provide an accurate answer about git commit.
+
+The script failed because max_tokens=15 was too small, so the model stopped before finishing its JSON response.
+
+git add ollama/ commands.txt
+
+git commit -m "Add Python calls"
+
+git push origin main
+
+git status
