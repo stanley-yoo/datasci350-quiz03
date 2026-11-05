@@ -1,0 +1,66 @@
+cd
+ollama pull granite4:350m
+git clone https://github.com/stanley-yoo/datasci350-quiz03
+ollama ls
+NAME                     ID              SIZE      MODIFIED           
+granite4:350m            5eee845b49c4    708 MB    About a minute ago    
+llama3.2:1b              baf6a787fdff    1.3 GB    2 weeks ago           
+embeddinggemma:latest    85462619ee72    621 MB    2 weeks ago           
+sorter-hot:latest        d7d42732298e    1.3 GB    2 weeks ago           
+sorter:latest            f5061b98cefe    1.3 GB    2 weeks ago           
+jarvis:latest            c2b05886b96a    1.3 GB    2 weeks ago           
+gemma3:12b               f4031aab637d    8.1 GB    4 weeks ago           
+hobbes:latest            582e15ed85b3    1.3 GB    4 weeks ago      
+   
+352 million parameters × 16 bits ÷ 8 = 704 MB.
+The predicted size is approximately 705 MB, while Ollama reports 708 MB. The difference is due to additional model data and metadata.
+
+ollama show
+cd datasci350-quiz03
+ls
+ollama ls
+ollama show
+ollama show granite4:350m
+code ollama/Modelfile
+touch ollama/Modelfile
+ls ollama
+cat ollama/Modelfile
+ollama create commentator -f ollama/Modelfile
+The command does not download anything because granite4:350m is already installed locally, so Ollama reuses the existing model files.
+
+ollama run commentator "What does git commit do?"
+*excited*
+
+Rule 1: Held because the response did not exceed four sentences.
+
+Rule 2: Broken because the model did not address the user as "sports fans".
+
+Rule 3: Not applicable because the model did not give an answer or explicitly express uncertainty.
+
+ollama run commentator "What is the weather in Atlanta right now?"
+I'm an AI and I don't have real-time data capabilities. I don't know the current weather in Atlanta.
+
+Rule 1: Held because the response contained two sentences.
+
+Rule 2: Broken because the model did not address the user as "sports fans".
+
+Rule 3: Held because the model admitted it did not know the current weather instead of making up an answer.
+
+ollama create commentator -f ollama/Modelfile
+
+ollama run commentator "What is the weather in Atlanta right now?"
+I'm sorry, I'm unable to provide real-time weather updates.
+
+ollama run commentator "What is the weather in Atlanta right now?"
+I'm sorry, I don't have the ability to provide real-time weather updates.
+
+ollama run commentator "What is the weather in Atlanta right now?"
+I'm sorry, I can't provide real-time weather updates.
+The model admitted it could not provide real-time weather information in all 3 out of 3 responses. 
+ls
+touch commands.txt
+history 50 >> commands.txt
+git status
+git add ollama/ commands.txt
+git commit -m "Add commentator chatbot"
+git push origin main
